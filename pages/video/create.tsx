@@ -65,6 +65,7 @@ const VideoCreatePage = () => {
   }
   const updateTag = (event: SyntheticEvent<Element, Event>, values: string[]) => {
     setValue('tags', values, { shouldValidate: true })
+    console.log(values)
   }
   
   useEffect(() => {
@@ -103,7 +104,9 @@ const VideoCreatePage = () => {
               onChange={updateTag}
               renderTags={(value: readonly string[], getTagProps) =>
                 value.map((option: string, index: number) => (
-                  <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                  <div key={index}>
+                    <Chip variant="outlined" label={option} {...getTagProps({ index })}  />
+                  </div>
                 ))
               }
               renderInput={(params) => (
@@ -140,7 +143,7 @@ const VideoCreatePage = () => {
               <TextField label="値段" type="number" variant="outlined" fullWidth {...register('price', {
                 required: '入力してください',
                 validate: {
-                  position: (value) => value >= 0 || '0以上で入力してください'
+                  positive: (value) => value >= 0 || '0以上で入力してください'
                 }
               })} />
               {errors.price && <div><Error>{errors.price.message}</Error></div>}
