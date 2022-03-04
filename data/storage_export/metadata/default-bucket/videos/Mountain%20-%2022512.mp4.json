@@ -1,0 +1,19 @@
+{
+  "name": "videos/Mountain - 22512.mp4",
+  "bucket": "default-bucket",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1645029599638,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "6cb3178f-d271-42e1-a432-c44b1534d3b6"
+  ],
+  "timeCreated": "2022-02-16T16:39:59.638Z",
+  "updated": "2022-02-16T16:39:59.679Z",
+  "size": 13172538,
+  "md5Hash": "VkJPvZfrvj6Dc4yWl/HH8A==",
+  "crc32c": "1320311250"
+}

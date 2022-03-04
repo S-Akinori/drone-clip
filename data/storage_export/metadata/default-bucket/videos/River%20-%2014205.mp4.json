@@ -1,0 +1,19 @@
+{
+  "name": "videos/River - 14205.mp4",
+  "bucket": "default-bucket",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1645029604798,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "aad7c78d-ea88-4df7-a4ec-83cbb6d6b5cf"
+  ],
+  "timeCreated": "2022-02-16T16:40:04.797Z",
+  "updated": "2022-02-16T16:40:04.822Z",
+  "size": 8340098,
+  "md5Hash": "ZN4E91yVdxDgyAwWN/pWRA==",
+  "crc32c": "677623317"
+}

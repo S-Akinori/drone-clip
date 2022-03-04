@@ -1,0 +1,19 @@
+{
+  "name": "videos/Car - 11490.mp4",
+  "bucket": "my-react-project-db288.appspot.com",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1646131479050,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "92bf6c00-3bce-4834-b8a9-97e662ed4a18"
+  ],
+  "timeCreated": "2022-03-01T10:44:39.049Z",
+  "updated": "2022-03-01T10:44:39.070Z",
+  "size": 6458222,
+  "md5Hash": "OQqrcRgovT5qNkXpc/jOpw==",
+  "crc32c": "3016558116"
+}

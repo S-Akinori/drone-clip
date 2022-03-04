@@ -1,0 +1,19 @@
+{
+  "name": "videos/Mountains - 7418.mp4",
+  "bucket": "default-bucket",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1645029592220,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "66eabbe9-dad3-4d52-9312-32d6000a5822"
+  ],
+  "timeCreated": "2022-02-16T16:39:52.219Z",
+  "updated": "2022-02-16T16:39:52.260Z",
+  "size": 13005055,
+  "md5Hash": "YmQKh/GIEinsfAh7+iA6QA==",
+  "crc32c": "578788017"
+}
