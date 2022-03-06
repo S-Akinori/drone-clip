@@ -1,4 +1,4 @@
-import { browserLocalPersistence, browserSessionPersistence, createUserWithEmailAndPassword, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile, User } from "firebase/auth";
+import { browserLocalPersistence, browserSessionPersistence, createUserWithEmailAndPassword, FacebookAuthProvider, getRedirectResult, GithubAuthProvider, GoogleAuthProvider, OAuthCredential, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, TwitterAuthProvider, updateProfile, User } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
@@ -8,8 +8,9 @@ interface authProps {
   register: (registerData: RegisterData) => Promise<User | false>
   signinWithEmail: (loginData: LoginData) => Promise<User | false>;
   signin: (user: User) => Promise<void>
-  signinWithGoogle: (provider: GoogleAuthProvider) => Promise<false | User>
+  signinWithSNS: (provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider | GithubAuthProvider, providerName: 'google' | 'facebook' | 'twitter' | 'github', isNew?: boolean) => Promise<false | User>
   signout: () => Promise<boolean>
+
 }
 
 const authContext = createContext<authProps | null>(null);
@@ -94,10 +95,26 @@ const useProvideAuth = () => {
     setUser(user);
   }
 
-  const signinWithGoogle = async(provider: GoogleAuthProvider, isNew = true) => {
+  const signinWithSNS = async (
+    provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider | GithubAuthProvider, 
+    providerName: 'google' | 'facebook' | 'twitter' | 'github',
+    isNew = true,
+  ) => {
     try {
       const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
+      let credential: OAuthCredential | null = null;
+      if(providerName == 'google') {
+        credential = GoogleAuthProvider.credentialFromResult(result);
+      } else if(providerName == 'facebook') {
+        credential = FacebookAuthProvider.credentialFromResult(result);
+      } else if(providerName == 'twitter') {
+        credential = TwitterAuthProvider.credentialFromResult(result);
+      } else if(providerName == 'github') {
+        credential = GithubAuthProvider.credentialFromResult(result)
+      } else {
+        console.log('provider name is null')
+        return false;
+      }
       const token = credential?.accessToken;
       const user = result.user;
       if(isNew) {
@@ -144,7 +161,7 @@ const useProvideAuth = () => {
     register,
     signin,
     signinWithEmail,
-    signinWithGoogle,
+    signinWithSNS,
     signout,
   }
 }

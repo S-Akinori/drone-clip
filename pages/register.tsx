@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -31,9 +31,23 @@ const RegisterPage : NextPage = () => {
       setMessage('登録ができませんでした。再度登録をお願いします。');
     }
   }
-  const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    const user = await auth?.signinWithGoogle(provider);
+
+  const signInWithSNS = async (providerName: 'google' | 'facebook' | 'twitter' | 'github') => {
+    let provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider | GithubAuthProvider | null = null
+    if(providerName == 'google') {
+      provider = new GoogleAuthProvider();
+    } else if(providerName == 'facebook') {
+      provider = new FacebookAuthProvider();
+    } else if(providerName == 'twitter') {
+      provider = new TwitterAuthProvider();
+    } else if(providerName == 'github') {
+      provider = new GithubAuthProvider();
+    }
+    if(provider == null) {
+      setMessage('登録ができませんでした。再度登録をお願いします。');
+      return
+    }
+    const user = await auth?.signinWithSNS(provider, providerName);
     if(user) {
       router.push('/home');
     } else {
@@ -79,8 +93,17 @@ const RegisterPage : NextPage = () => {
             <Button>登録</Button>
           </div>
         </form>
-        <div className="text-center">
-          <Button onClick={signInWithGoogle}>Googleアカウントで登録</Button>
+        <div className="text-center mb-4">
+          <Button onClick={() => signInWithSNS('google')}>Googleアカウントで登録</Button>
+        </div>
+        <div className="text-center mb-4">
+          <Button onClick={() => signInWithSNS('twitter')}>Twitterアカウントで登録</Button>
+        </div>
+        <div className="text-center mb-4">
+          <Button onClick={() => signInWithSNS('facebook')}>Facebookアカウントで登録</Button>
+        </div>
+        <div className="text-center mb-4">
+          <Button onClick={() => signInWithSNS('github')}>GitHubアカウントで登録</Button>
         </div>
         {message && <div className="text-center"><Error>{message}</Error></div>}
       </div>
