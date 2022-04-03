@@ -1,5 +1,5 @@
-import { browserLocalPersistence, browserSessionPersistence, createUserWithEmailAndPassword, FacebookAuthProvider, getRedirectResult, GithubAuthProvider, GoogleAuthProvider, OAuthCredential, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, TwitterAuthProvider, updateProfile, User } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { browserLocalPersistence, browserSessionPersistence, createUserWithEmailAndPassword, FacebookAuthProvider, getRedirectResult, GithubAuthProvider, GoogleAuthProvider, linkWithPopup, OAuthCredential, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, TwitterAuthProvider, updateProfile, User, UserCredential } from "firebase/auth";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 
@@ -9,6 +9,7 @@ interface authProps {
   signinWithEmail: (loginData: LoginData) => Promise<User | false>;
   signin: (user: User) => Promise<void>
   signinWithSNS: (provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider | GithubAuthProvider, providerName: 'google' | 'facebook' | 'twitter' | 'github', isNew?: boolean) => Promise<false | User>
+  linkSNS: (provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider | GithubAuthProvider, providerName: 'google' | 'facebook' | 'twitter' | 'github') => Promise<false | User>
   signout: () => Promise<boolean>
 
 }
@@ -102,7 +103,9 @@ const useProvideAuth = () => {
   ) => {
     try {
       const result = await signInWithPopup(auth, provider);
+
       let credential: OAuthCredential | null = null;
+
       if(providerName == 'google') {
         credential = GoogleAuthProvider.credentialFromResult(result);
       } else if(providerName == 'facebook') {
@@ -136,6 +139,40 @@ const useProvideAuth = () => {
     }
   }
 
+  const linkSNS = async(
+    provider: GoogleAuthProvider | FacebookAuthProvider | TwitterAuthProvider | GithubAuthProvider, 
+    providerName: 'google' | 'facebook' | 'twitter' | 'github',
+  ) => {
+    if(!user) return false;
+    try {
+      const result = await linkWithPopup(user, provider)
+      let credential: OAuthCredential | null = null;
+      if(providerName == 'google') {
+        credential = GoogleAuthProvider.credentialFromResult(result);
+      } else if(providerName == 'facebook') {
+        credential = FacebookAuthProvider.credentialFromResult(result);
+      } else if(providerName == 'twitter') {
+        credential = TwitterAuthProvider.credentialFromResult(result);
+      } else if(providerName == 'github') {
+        credential = GithubAuthProvider.credentialFromResult(result)
+      } else {
+        console.log('provider name is null')
+        return false;
+      }
+      const token = credential?.accessToken;
+      const newUser = result.user;
+      const userData = {
+        providerData: newUser.providerData,
+      }
+      await updateDoc(doc(db, "users", user.uid), userData)
+      setUser(newUser);
+      return newUser;
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
   const signout = async () => {
     try {
       await signOut(auth)
@@ -162,6 +199,7 @@ const useProvideAuth = () => {
     signin,
     signinWithEmail,
     signinWithSNS,
+    linkSNS,
     signout,
   }
 }

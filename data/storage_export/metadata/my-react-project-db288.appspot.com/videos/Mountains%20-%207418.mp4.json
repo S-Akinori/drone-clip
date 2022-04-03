@@ -1,0 +1,19 @@
+{
+  "name": "videos/Mountains - 7418.mp4",
+  "bucket": "my-react-project-db288.appspot.com",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1647705972708,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "3060e4da-87ed-4aa1-9b0d-87fab459ab81"
+  ],
+  "timeCreated": "2022-03-19T16:06:12.707Z",
+  "updated": "2022-03-19T16:06:12.748Z",
+  "size": 13005055,
+  "md5Hash": "YmQKh/GIEinsfAh7+iA6QA==",
+  "crc32c": "578788017"
+}

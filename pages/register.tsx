@@ -10,6 +10,11 @@ import Error from "../src/components/atoms/Error";
 import Layout from "../src/components/templates/Layout";
 import { useAuth } from "../src/lib/auth/auth";
 import { auth as fbAuth, db } from "../src/lib/firebase/firebase";
+import GoogleIcon from '@mui/icons-material/Google';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import Link from "next/link";
 
 interface Inputs {
   username: string,
@@ -28,7 +33,7 @@ const RegisterPage : NextPage = () => {
     if(user) {
       router.push('/home');
     } else {
-      setMessage('登録ができませんでした。再度登録をお願いします。');
+      setMessage('すでに使われているメールアドレスか、このメールアドレスを使ったSNSアカウントですでに登録されています');
     }
   }
 
@@ -59,6 +64,24 @@ const RegisterPage : NextPage = () => {
     <Layout>
       <div className="container mx-auto px-4">
         <h1 className="text-center">登録</h1>
+        <div className="text-center mb-4"><Link href='/login'><a className="underline">ログインはこちら</a></Link></div>
+        <div className="mb-4">
+          <div className="text-center mb-4">SNSアカウントでログイン</div>
+          <div className="flex justify-center flex-wrap">
+            <div className="text-center mb-4 px-4 w-1/2 md:w-1/4">
+              <Button onClick={() => signInWithSNS('google')} className="w-full block" style={{background: '#FFF', color: "#222", boxShadow: '2px 2px 2px #ccc'}}><GoogleIcon />Google</Button>
+            </div>
+            <div className="text-center mb-4 px-4 w-1/2 md:w-1/4">
+              <Button onClick={() => signInWithSNS('twitter')} className="w-full block" style={{background: '#1DA1F2'}}><TwitterIcon /> Twitter</Button>
+            </div>
+            <div className="text-center mb-4 px-4 w-1/2 md:w-1/4">
+              <Button onClick={() => signInWithSNS('facebook')} className="w-full block" style={{background: '#1877F2'}}><FacebookIcon /> Facebook</Button>
+            </div>
+            <div className="text-center mb-4 px-4 w-1/2 md:w-1/4">
+              <Button onClick={() => signInWithSNS('github')} className="w-full block" style={{background: '#24292f'}}><GitHubIcon /> GitHub</Button>
+            </div>
+          </div>
+        </div>
         <form className="py-4" onSubmit={handleSubmit(registerWithEmail)}>
           <div className="mb-4">
             <TextField label="ユーザー名" variant="outlined" fullWidth {...register('username', {
@@ -93,18 +116,6 @@ const RegisterPage : NextPage = () => {
             <Button>登録</Button>
           </div>
         </form>
-        <div className="text-center mb-4">
-          <Button onClick={() => signInWithSNS('google')}>Googleアカウントで登録</Button>
-        </div>
-        <div className="text-center mb-4">
-          <Button onClick={() => signInWithSNS('twitter')}>Twitterアカウントで登録</Button>
-        </div>
-        <div className="text-center mb-4">
-          <Button onClick={() => signInWithSNS('facebook')}>Facebookアカウントで登録</Button>
-        </div>
-        <div className="text-center mb-4">
-          <Button onClick={() => signInWithSNS('github')}>GitHubアカウントで登録</Button>
-        </div>
         {message && <div className="text-center"><Error>{message}</Error></div>}
       </div>
     </Layout>

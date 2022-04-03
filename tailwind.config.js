@@ -6,13 +6,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'base': '#080D1B',
-        'base-color': '#080D1B',
-        'base-transparent': '#080D1BD9',
-        'base-cont': '#FCFCFC',
-        'main': '#F73117',
+        'base': '#FCFCFC',
+        'base-color': '#FCFCFC',
+        'base-cont': '#080d1b',
+        'base-cont-transparent': '#080d1be6',
+        'main': '#80b341',
       },
     },
   },
   plugins: [],
+  corePlugins: {
+    preflight: false,
+  }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "sampleVideos/clouds_-_27197 (Original).mp4",
+  "bucket": "my-react-project-db288.appspot.com",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1648361882049,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "a979788f-43f0-4a6e-957b-522eb64f58e4"
+  ],
+  "timeCreated": "2022-03-27T06:18:02.048Z",
+  "updated": "2022-03-27T06:18:02.067Z",
+  "size": 3185527,
+  "md5Hash": "v67uWyW+lMXw9wCUVRo3Rw==",
+  "crc32c": "4176937879"
+}

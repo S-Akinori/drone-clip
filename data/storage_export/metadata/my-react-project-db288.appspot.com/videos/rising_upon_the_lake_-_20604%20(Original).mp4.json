@@ -1,0 +1,19 @@
+{
+  "name": "videos/rising_upon_the_lake_-_20604 (Original).mp4",
+  "bucket": "my-react-project-db288.appspot.com",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1648362191321,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "77ec4e31-8344-4a42-bc21-812a656435b8"
+  ],
+  "timeCreated": "2022-03-27T06:23:11.320Z",
+  "updated": "2022-03-27T06:23:11.630Z",
+  "size": 60328214,
+  "md5Hash": "+wGmdsFiYq6n3zv/kxFL4A==",
+  "crc32c": "2126503531"
+}

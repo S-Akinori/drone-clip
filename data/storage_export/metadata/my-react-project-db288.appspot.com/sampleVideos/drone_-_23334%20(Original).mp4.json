@@ -1,0 +1,19 @@
+{
+  "name": "sampleVideos/drone_-_23334 (Original).mp4",
+  "bucket": "my-react-project-db288.appspot.com",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1648362130546,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d4fabfd5-8d0d-4d46-94cf-5b3d006701d2"
+  ],
+  "timeCreated": "2022-03-27T06:22:10.545Z",
+  "updated": "2022-03-27T06:22:10.597Z",
+  "size": 9758383,
+  "md5Hash": "yxfXSoIZOEYYzPUh/P2+Wg==",
+  "crc32c": "3052495350"
+}

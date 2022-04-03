@@ -4,12 +4,13 @@ import { ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { NestedValue, SubmitHandler, useForm } from "react-hook-form";
-import Button from "../../src/components/atoms/Button";
-import Error from "../../src/components/atoms/Error";
-import Layout from "../../src/components/templates/Layout";
-import { useAuth } from "../../src/lib/auth/auth";
-import PrivateRoute from "../../src/lib/auth/PrivateRoute";
-import { db, storage } from "../../src/lib/firebase/firebase";
+import Button from "../../../src/components/atoms/Button";
+import Error from "../../../src/components/atoms/Error";
+import Layout from "../../../src/components/templates/Layout";
+import { useAuth } from "../../../src/lib/auth/auth";
+import PrivateRoute from "../../../src/lib/auth/PrivateRoute";
+import { db, storage } from "../../../src/lib/firebase/firebase";
+import { tags } from "../../../src/variables/tags";
 
 interface Inputs {
   title: string,
@@ -19,10 +20,6 @@ interface Inputs {
   fileSample: FileList,
   price: number
 }
-
-const tags = [
-  'タグ1','タグ2','タグ3'
-]
 
 const VideoCreatePage = () => {
   const auth = useAuth();
@@ -53,7 +50,7 @@ const VideoCreatePage = () => {
         owner: {},
       }
       const docRef = await addDoc(collection(db, "videos"), fileData);
-      router.push('/')
+      setMessage('アップロードが完了しました')
     } catch(e) {
       setMessage('保存に失敗しました。再度お試しください')
     }
@@ -74,7 +71,6 @@ const VideoCreatePage = () => {
     })
   }, [register])
   return (
-    <PrivateRoute>
       <Layout>
         <div className="container mx-auto">
           <h2 className="text-center">動画アップロード</h2>
@@ -155,7 +151,6 @@ const VideoCreatePage = () => {
           </form>
         </div>
       </Layout>
-    </PrivateRoute>
   )
 }
 

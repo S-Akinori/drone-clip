@@ -137,7 +137,7 @@ const CheckoutForm = ({videoDoc, setSold}: Props) => {
       </div>
       <PaymentElement id="payment-element" />
       <div className="mt-4">
-        <LoadingButton type="submit" variant="contained" loading={isLoading} disabled={!stripe || !elements} id="submit">
+        <LoadingButton color="info" type="submit" variant="contained" loading={isLoading} disabled={!stripe || !elements} id="submit">
           購入
         </LoadingButton>
       </div>

@@ -1,5 +1,5 @@
 import Head from "next/head"
-import React from "react"
+import React, { CSSProperties } from "react"
 import Footer from "../../organisms/Footer"
 import Header from "../../organisms/Header"
 
@@ -9,6 +9,8 @@ interface Props {
   pageDescription?: string
   pagePath?: string
   pageImg?: string
+  className?: string
+  style? : CSSProperties
 }
 
 const Layout = ({
@@ -16,7 +18,9 @@ const Layout = ({
     pageDescription = process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
     pagePath = process.env.NEXT_PUBLIC_HOME_URL, 
     pageImg = 'https://impre.jp/images/agriculture-gf0d64886b_1920.jpg', 
-    children
+    children,
+    className = '',
+    style = undefined
   }: Props) => {
   return (
     <div style={{overflowX: 'hidden'}}>
@@ -37,7 +41,7 @@ const Layout = ({
       </Head>
       <Header />
       <main>
-        <div className="py-16">
+        <div className={`py-16 ${className}`} style={style}>
           {children}
         </div>
       </main>

@@ -12,10 +12,11 @@ import Layout from "../../src/components/templates/Layout"
 import { db, storage } from "../../src/lib/firebase/firebase"
 import CloseIcon from '@mui/icons-material/Close';
 import { VideoDoc } from "../../src/lib/types/videoDoc"
-import { document } from "firebase-functions/v1/firestore"
 import {saveAs} from "file-saver"
 import { SubmitHandler, useForm } from "react-hook-form"
 import Error from "../../src/components/atoms/Error"
+import VideoList from "../../src/components/organisms/VideoList"
+import Tag from "../../src/components/atoms/Tag"
 
 interface UserDoc {
   displayName: string,
@@ -31,6 +32,7 @@ interface Params {
 interface Props {
   videoDoc: VideoDoc
   userDoc: UserDoc
+  relatedVideos: VideoDoc[]
 }
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY as string)
@@ -44,7 +46,7 @@ interface Inputs {
   token: string
 }
 
-const VideoShowPage = ({videoDoc, userDoc}: Props) => {  
+const VideoShowPage = ({videoDoc, userDoc, relatedVideos}: Props) => {  
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const [message, setMessage] = useState('');
   const [videoData, setVideoData] = useState<VideoDoc>(videoDoc)
@@ -52,6 +54,8 @@ const VideoShowPage = ({videoDoc, userDoc}: Props) => {
   const [sold, setSold] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const date = new Date(videoDoc.timeCreated)
+  const tagUrl = videoDoc.tags.join('/')
+
   const showStripeModal = async () => {
     if(videoDoc.state == 'sold') {
       return;
@@ -59,7 +63,7 @@ const VideoShowPage = ({videoDoc, userDoc}: Props) => {
     if(clientSecret) {
       setOpen(true);
       return;
-    } 
+    }
     const res = await fetch("/api/checkout_session", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -89,13 +93,13 @@ const VideoShowPage = ({videoDoc, userDoc}: Props) => {
   }
 
   useEffect(() => {
+    const fetchVideoDoc = async (id: string) => {
+      const docRef = doc(db, "videos", id);
+      const docSnap = await getDoc(docRef);
+      return docSnap.data() as VideoDoc;
+    }
     if(clientSecret && sold) {
-      const fetchVideoDoc = async () => {
-        const docRef = doc(db, "videos", videoDoc.id);
-        const docSnap = await getDoc(docRef);
-        return docSnap.data() as VideoDoc;
-      }
-      fetchVideoDoc().then(doc => {
+      fetchVideoDoc(videoDoc.id).then(doc => {
         setVideoData(doc)
         setOpen(false)
         getDownloadURL(ref(storage, videoData.fullPath))
@@ -106,13 +110,19 @@ const VideoShowPage = ({videoDoc, userDoc}: Props) => {
           console.log(error)
         })
       });
+    } else if(!sold) {
+      fetchVideoDoc(videoDoc.id).then(doc => {
+        if(doc.state == 'sold') {
+          setSold(true)
+        }
+      })
     }
   }, [sold])
   return (
     <Layout>
       <div className="container px-4 mx-auto">
         <h1>{videoData.title}</h1>
-        <div className="md:flex">
+        <div className="md:flex mb-8">
           <div className="md:w-1/2">
             <ReactPlayer
               url={videoData.url}
@@ -123,8 +133,8 @@ const VideoShowPage = ({videoDoc, userDoc}: Props) => {
           </div>
           <div className="md:w-1/2 md:p-4">
             <div className="mb-4">{videoData.description}</div>
-            {videoData.state === 'public' && <div className="mb-4"><Button onClick={showStripeModal}>&yen; {typeof(videoData.price) == 'string' ? parseInt(videoData.price).toLocaleString() : videoData.price.toLocaleString()} - 購入する</Button></div>}
-            {videoData.state === 'sold' && (
+            {!sold && <div className="mb-4"><Button onClick={showStripeModal}>&yen; {typeof(videoData.price) == 'string' ? parseInt(videoData.price).toLocaleString() : videoData.price.toLocaleString()} - 購入する</Button></div>}
+            {sold && (
               <div className="my-4">
                 <div>＊この映像は購入されました</div>
                 <div className="mb-4">ダウンロードはこちら</div>
@@ -152,15 +162,27 @@ const VideoShowPage = ({videoDoc, userDoc}: Props) => {
                 </form>
               </div>
             )}
+            <div className="flex mb-4">
+              {videoData.tags && videoData.tags.map((tag, index) => (
+                <Tag key={index} href={`/video/tag/${tag}`} className="mr-4">{tag}</Tag>
+              ))}
+            </div>
             <div className="flex">
               <div className="mr-4">{`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}</div>
               <div>{userDoc.displayName}</div>
             </div>
           </div>
         </div>
-        {open && (
-          <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-base-transparent">
-            <div className="relative p-4 bg-base-cont">
+        <div className="mb-4">
+          <h2>同じタグのドローン映像</h2>
+          <VideoList videos={relatedVideos} />
+        </div>
+        <div className="text-center">
+          <Button href={`/video/tag/${tagUrl}`}>もっと見る</Button>
+        </div>
+        {open && ( 
+          <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-base-cont-transparent">
+            <div className="relative p-4 bg-base">
               <div className="absolute top-0 right-0">
                 <IconButton aria-label="close" onClick={() => setOpen(false)}>
                   <CloseIcon />
@@ -202,7 +224,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   }
   const url = `${storageURL}/v0/b/${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}/o/${encodeURIComponent(docSnap?.data()?.sampleFullPath)}?alt=media`
   videoDoc.url = url
-  return {props: {videoDoc, userDoc}}
+
+  const urlTag = videoDoc.tags.length ? 'tag/' + videoDoc.tags.join('/') : '';
+  const res = await fetch(process.env.NEXT_PUBLIC_HOME_URL + "/api/video/" + urlTag)
+  const data = await res.json();
+  const relatedVideos = data.videoDocs as VideoDoc[];
+
+  return {props: {videoDoc, userDoc, relatedVideos}}
 }
 
 export default VideoShowPage

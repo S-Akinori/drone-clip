@@ -1,0 +1,19 @@
+{
+  "name": "sampleVideos/final_6235ff2529558e00ea077fc7_693428.mp4",
+  "bucket": "my-react-project-db288.appspot.com",
+  "contentType": "video/mp4",
+  "metageneration": 1,
+  "generation": 1647705972836,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "bd2c22ba-7c70-4231-8bf2-07f7a3ea2ec6"
+  ],
+  "timeCreated": "2022-03-19T16:06:12.835Z",
+  "updated": "2022-03-19T16:06:12.845Z",
+  "size": 2620408,
+  "md5Hash": "q0L0wIJzhATWia0NGrwubA==",
+  "crc32c": "3016308022"
+}
