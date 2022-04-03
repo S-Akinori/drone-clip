@@ -10,7 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>
 ) {
-  const {start} = req.body
+  const start = req.body ? req.body.start : undefined
   const db = firebaseAdmin.firestore();
   const videoRef = db.collection('videos');
   const query = start ? 
