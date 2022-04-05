@@ -2,7 +2,7 @@ import { IconButton, Modal, TextField } from "@mui/material"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import { collection, doc, getDoc, getDocs, onSnapshot, updateDoc } from "firebase/firestore"
-import { getDownloadURL, ref, StringFormat } from "firebase/storage"
+import { getBlob, getDownloadURL, ref, StringFormat } from "firebase/storage"
 import { GetStaticPaths, GetStaticProps } from "next"
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import ReactPlayer from "react-player"
@@ -81,9 +81,9 @@ const VideoShowPage = ({videoDoc, userDoc, relatedVideos}: Props) => {
   const downloadVideo: SubmitHandler<Inputs> = async (data) => {
     setMessage('')
     if(videoData.owner.email === data.email && videoData.token === data.token) {
-      getDownloadURL(ref(storage, videoData.fullPath))
-      .then((url) => {
-        saveAs(url)
+      getBlob(ref(storage, videoData.fullPath))
+      .then((blob) => {
+        saveAs(blob)
       })
       .catch(error => {
         setMessage('エラーが起こりました。再度お試しください')

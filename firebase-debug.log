@@ -189,3 +189,18 @@ INFO: Detected non-HTTP/2 connection.
 [debug] [2022-04-05T13:25:12.853Z] Apr 05, 2022 10:25:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
  {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 05, 2022 10:25:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-04-05T13:26:12.868Z] Apr 05, 2022 10:26:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 05, 2022 10:26:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-04-05T13:26:13.402Z] Apr 05, 2022 10:26:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 05, 2022 10:26:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2022-04-05T13:26:13.407Z] Apr 05, 2022 10:26:13 PM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose
+INFO: channel closed
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 05, 2022 10:26:13 PM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose\r\nINFO: channel closed\r\n"}}
+[info] {"result":{"permit":true},"id":71,"status":"ok"}
+{"result":{"permit":true},"id":72,"status":"ok"}
+{"result":{"permit":true},"id":73,"status":"ok"} {"metadata":{"emulator":{"name":"storage"},"message":"{\"result\":{\"permit\":true},\"id\":71,\"status\":\"ok\"}\r\n{\"result\":{\"permit\":true},\"id\":72,\"status\":\"ok\"}\r\n{\"result\":{\"permit\":true},\"id\":73,\"status\":\"ok\"}"}}
+[info] {"result":{"permit":true},"id":77,"status":"ok"}
+{"result":{"permit":true},"id":78,"status":"ok"}
+{"result":{"permit":true},"id":79,"status":"ok"} {"metadata":{"emulator":{"name":"storage"},"message":"{\"result\":{\"permit\":true},\"id\":77,\"status\":\"ok\"}\r\n{\"result\":{\"permit\":true},\"id\":78,\"status\":\"ok\"}\r\n{\"result\":{\"permit\":true},\"id\":79,\"status\":\"ok\"}"}}
