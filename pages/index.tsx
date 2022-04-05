@@ -74,8 +74,10 @@ const TopPage = ({videoDocs}: Props) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_HOME_URL + "/api/video/")
+  const res = await fetch(process.env.NEXT_PUBLIC_HOME_URL + "/api/video/");
+  console.log(res)
   const data = await res.json();
+  console.log(data)
   const docs = data.videoDocs as VideoDoc[]
   let videoDocs: VideoDoc[] = []
   docs.forEach(async (doc) => {

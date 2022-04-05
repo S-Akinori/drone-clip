@@ -10,12 +10,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>
 ) {
-  const start = req.body ? req.body.start : undefined
+  const start = req.body ? req.body.start : null
   const db = firebaseAdmin.firestore();
   const videoRef = db.collection('videos');
   const query = start ? 
-  videoRef.where('state', '==', 'public').limit(40).orderBy('favorite', 'desc').startAfter(start) : 
-  videoRef.where('state', '==', 'public').limit(40).orderBy('favorite', 'desc');
+  videoRef.where('state', '==', 'public').orderBy('favorite', 'desc').limit(40).startAfter(start) : 
+  videoRef.where('state', '==', 'public').orderBy('favorite', 'desc').limit(40);
   const querySnapshot = await query.get();
   let videoDocs: VideoDoc[] = []
   querySnapshot.forEach(async (doc) => {
