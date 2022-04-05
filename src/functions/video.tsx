@@ -33,6 +33,5 @@ export const fetchVideos = async ({start, tags}: Props = {}) => {
     videoDoc.url = url
     videoDocs.push(videoDoc)
   })
-  console.log(videoDocs)
   return videoDocs;
 }
