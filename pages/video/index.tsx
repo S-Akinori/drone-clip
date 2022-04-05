@@ -6,6 +6,7 @@ import SearchVideoForm from '../../src/components/organisms/SearchVideoForm'
 import VideoList from '../../src/components/organisms/VideoList'
 import { useInView } from 'react-intersection-observer'
 import FetchVideosButton from '../../src/components/organisms/FetchVideosButton'
+import { fetchVideos } from '../../src/functions/video'
 
 interface Props {
   videoDocs: VideoDoc[]
@@ -58,9 +59,7 @@ const VideoIndexPage = ({videoDocs}: Props) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_HOME_URL + "/api/video/")
-  const data = await res.json();
-  const docs = data.videoDocs as VideoDoc[]
+  const docs = await fetchVideos()
   let videoDocs: VideoDoc[] = []
   let videoURLs: string[] = []
   docs.forEach(async (doc) => {

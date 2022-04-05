@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import Error from "../../src/components/atoms/Error"
 import VideoList from "../../src/components/organisms/VideoList"
 import Tag from "../../src/components/atoms/Tag"
+import { fetchVideos } from '../../src/functions/video'
 
 interface UserDoc {
   displayName: string,
@@ -223,12 +224,9 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     storageURL = 'http://localhost:9199'
   }
   const url = `${storageURL}/v0/b/${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}/o/${encodeURIComponent(docSnap?.data()?.sampleFullPath)}?alt=media`
-  videoDoc.url = url
-
-  const urlTag = videoDoc.tags.length ? 'tag/' + videoDoc.tags.join('/') : '';
-  const res = await fetch(process.env.NEXT_PUBLIC_HOME_URL + "/api/video/" + urlTag)
-  const data = await res.json();
-  const relatedVideos = data.videoDocs as VideoDoc[];
+  videoDoc.url = url;
+  const docs = await fetchVideos({tags: videoDoc.tags})
+  const relatedVideos = docs;
 
   return {props: {videoDoc, userDoc, relatedVideos}}
 }

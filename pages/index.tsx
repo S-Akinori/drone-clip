@@ -5,6 +5,7 @@ import TextAndImageBox from "../src/components/molecules/TextAndImageBox";
 import Layout from "../src/components/templates/Layout";
 import { VideoDoc } from "../src/lib/types/videoDoc";
 import Title from "../src/components/molecules/Title";
+import { fetchVideos } from "../src/functions/video";
 
 interface Props {
   videoDocs: VideoDoc[]
@@ -74,11 +75,7 @@ const TopPage = ({videoDocs}: Props) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_HOME_URL + "/api/video/");
-  console.log('res: ', res)
-  const data = await res.json();
-  console.log('data: ', data)
-  const docs = data.videoDocs as VideoDoc[]
+  const docs = await fetchVideos();
   let videoDocs: VideoDoc[] = []
   docs.forEach(async (doc) => {
     const videoDoc = doc;
